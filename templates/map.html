@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenStreetMap GPS Tracker</title>
+
+    <!-- OpenStreetMap CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <style>
+        #map {
+            height: 100vh;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="map"></div>
+
+    <script>
+        // Initialize map with GPS coordinates
+        var lat = {{ lat }};
+        var lon = {{ lon }};
+        var map = L.map('map').setView([lat, lon], 15);
+
+        // Load OpenStreetMap tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Add a marker for the GPS location
+        var marker = L.marker([lat, lon]).addTo(map);
+
+        // Update marker position every 15 seconds
+        setInterval(async () => {
+            const response = await fetch('/');
+            const html = await response.text();
+            const latMatch = html.match(/lat=(\d+\.\d+)/);
+            const lonMatch = html.match(/lon=(\d+\.\d+)/);
+
+            if (latMatch && lonMatch) {
+                const newLat = parseFloat(latMatch[1]);
+                const newLon = parseFloat(lonMatch[1]);
+
+                marker.setLatLng([newLat, newLon]);
+                map.setView([newLat, newLon]);
+            }
+        }, 15000);
+    </script>
+</body>
+</html>
