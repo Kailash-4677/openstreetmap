@@ -1,6 +1,6 @@
 from flask import Flask, request, render_template
 
-app = Flask(_name_)
+app = Flask(__name__)
 
 # Initialize GPS data with default location (Chennai)
 gps_data = {"latitude": 13.0827, "longitude": 80.2707}
