@@ -48,10 +48,10 @@ def update_location():
     lon = request.args.get('lon')
     new_location = (lat, lon)
     old_location = (previous_location["latitude"], previous_location["longitude"])
-    send_email_alert(lat, lon, distance_moved)
 
     # Calculate distance moved
     distance_moved = geodesic(old_location, new_location).meters
+    send_email_alert(lat, lon, distance_moved)
 
     if lat and lon:
         gps_data['latitude'] = float(lat)
