@@ -35,20 +35,25 @@
         var marker = L.marker([lat, lon]).addTo(map);
 
         // Update marker position every 15 seconds
-        setInterval(async () => {
-            const response = await fetch('/');
-            const html = await response.text();
-            const latMatch = html.match(/lat=(\d+\.\d+)/);
-            const lonMatch = html.match(/lon=(\d+\.\d+)/);
+           // Function to check for new GPS data
+        async function checkForUpdates() {
+            try {
+                const response = await fetch('/current_location'); // Fetch the latest GPS data
+                const data = await response.json();
 
-            if (latMatch && lonMatch) {
-                const newLat = parseFloat(latMatch[1]);
-                const newLon = parseFloat(lonMatch[1]);
-
-                marker.setLatLng([newLat, newLon]);
-                map.setView([newLat, newLon]);
+                if (data.latitude !== lat || data.longitude !== lon) {
+                    lat = data.latitude;
+                    lon = data.longitude;
+                    marker.setLatLng([lat, lon]);  // Update marker
+                    map.setView([lat, lon]);       // Recenter map
+                }
+            } catch (error) {
+                console.error("Error fetching GPS data:", error);
             }
-        }, 15000);
+        }
+
+        // Poll every 5 seconds for updates
+        setInterval(checkForUpdates, 5000);
     </script>
 </body>
 </html>
