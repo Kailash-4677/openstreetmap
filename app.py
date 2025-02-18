@@ -51,7 +51,6 @@ def update_location():
 
     # Calculate distance moved
     distance_moved = geodesic(old_location, new_location).meters
-    send_email_alert(lat, lon, distance_moved)
 
     if lat and lon:
         gps_data['latitude'] = float(lat)
