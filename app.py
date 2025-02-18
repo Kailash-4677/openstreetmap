@@ -3,7 +3,7 @@ from flask import Flask, request, render_template
 app = Flask(__name__)
 
 # Initialize GPS data with default location (Chennai)
-gps_data = {"latitude": 13.0827, "longitude": 80.2707}
+gps_data = {"latitude": 13.356872, "longitude": 80.142214}
 
 @app.route('/')
 def index():
