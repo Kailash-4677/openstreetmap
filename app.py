@@ -10,7 +10,7 @@ gps_data = {"latitude": 13.323407, "longitude": 80.152771}
 previous_location = gps_data.copy() 
 
 # Set distance threshold (in meters)
-DISTANCE_THRESHOLD = 200  # Change as needed
+DISTANCE_THRESHOLD = 100  # Change as needed
 
 # Email credentials (replace with your details)
 EMAIL_SENDER = "24404.cs@rmkcet.ac.in"
